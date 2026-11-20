@@ -1,6 +1,6 @@
 {
   "name": "argus-media",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Client examples and a stdio MCP server for the Media Terminal adverse media API (media.unbackoffice.com).",
   "license": "MIT",
   "type": "module",
@@ -25,7 +25,8 @@
     "build": "tsc -p mcp/tsconfig.json && node scripts/chmod-bin.mjs",
     "typecheck": "tsc -p mcp/tsconfig.json --noEmit && tsc -p examples/typescript/tsconfig.json",
     "start": "node mcp/dist/index.js",
-    "verify": "node scripts/verify-mcp.mjs"
+    "verify": "node scripts/verify-mcp.mjs",
+    "test": "node --test"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

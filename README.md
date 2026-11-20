@@ -118,6 +118,8 @@ Tool:
 
 - `adverse_media_search`: `name`, optional `kind`, `country`, `dob`, `context` and `full`. Returns the subject, the overall risk and reasoning and the top 10 articles, or the whole response with `full: true`.
 
+Headlines, summaries and the rationale in a report are written from third-party web pages and news articles, and an article can carry wording aimed at an agent. The tool returns the report as JSON followed by a second text block that labels it as untrusted content. Treat the text as data about the subject, not as instructions, and keep that rule in your own prompts.
+
 **Claude Code**
 
 ```sh
@@ -145,10 +147,11 @@ From a clone:
 ```sh
 npm install
 npm run build          # compiles mcp/src to mcp/dist (mcp/dist is committed, so npx needs no build step)
+npm test               # checks the base URL guard and the tool against a local stub (no API call, no key)
 npm run verify         # starts the server, runs initialize and tools/list, calls adverse_media_search once
 ```
 
-`MEDIA_API_URL` overrides the base URL. It defaults to `https://media.unbackoffice.com`.
+`MEDIA_API_URL` overrides the base URL (default `https://media.unbackoffice.com`). The searches and your API key are sent to that host, so an override is refused unless it is `https` (plain `http` for `localhost` only) and `MEDIA_ALLOW_CUSTOM_URL=1` is set too. Leave both unset unless you run your own test server, and check any MCP config you are given for them.
 
 ## openapi.json
 
