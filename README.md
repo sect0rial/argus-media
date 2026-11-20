@@ -111,7 +111,7 @@ npx tsx examples/typescript/search.ts "Jane Example" person GB "CEO, Example Tra
 
 ## MCP server
 
-A stdio MCP server that wraps the API, so an MCP client can search adverse media. It runs straight from GitHub with `npx`.
+A stdio MCP server that wraps the API, so an MCP client can search adverse media. It runs straight from GitHub with `npx`, pinned to a release tag.
 Each call uses searches from your key as above.
 
 Tool:
@@ -123,7 +123,7 @@ Headlines, summaries and the rationale in a report are written from third-party 
 **Claude Code**
 
 ```sh
-claude mcp add argus-media -e MEDIA_API_KEY=your-key -- npx -y github:sect0rial/argus-media
+claude mcp add argus-media -e MEDIA_API_KEY=your-key -- npx -y "github:sect0rial/argus-media#v0.1.1"
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`) and **Cursor** (`~/.cursor/mcp.json`, or `.cursor/mcp.json` in a project) take the same block:
@@ -133,7 +133,7 @@ claude mcp add argus-media -e MEDIA_API_KEY=your-key -- npx -y github:sect0rial/
   "mcpServers": {
     "argus-media": {
       "command": "npx",
-      "args": ["-y", "github:sect0rial/argus-media"],
+      "args": ["-y", "github:sect0rial/argus-media#v0.1.1"],
       "env": { "MEDIA_API_KEY": "your-key" }
     }
   }
@@ -142,11 +142,15 @@ claude mcp add argus-media -e MEDIA_API_KEY=your-key -- npx -y github:sect0rial/
 
 Restart the client after editing the file.
 
+Pin what you run. `github:sect0rial/argus-media#v0.1.1` installs that release and nothing newer. Without the `#…` part `npx` runs whatever is on the default branch at that moment, with your API key in its environment. For the strictest pin, put the release's full commit SHA after the `#` instead of the tag (the SHAs are on the [tags page](https://github.com/sect0rial/argus-media/tags)): a tag can be moved, a commit cannot. Keep the `github:sect0rial/` prefix: this repository is the only place the server is published.
+
+`mcp/dist` is committed so `npx` needs no build step. CI rebuilds it from `mcp/src` on every push and pull request and fails if the committed files differ.
+
 From a clone:
 
 ```sh
-npm install
-npm run build          # compiles mcp/src to mcp/dist (mcp/dist is committed, so npx needs no build step)
+npm ci                 # installs the locked dependencies
+npm run build          # compiles mcp/src to mcp/dist; commit the result with the source change
 npm test               # checks the base URL guard and the tool against a local stub (no API call, no key)
 npm run verify         # starts the server, runs initialize and tools/list, calls adverse_media_search once
 ```

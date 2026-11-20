@@ -9,6 +9,9 @@
     "url": "git+https://github.com/sect0rial/argus-media.git"
   },
   "homepage": "https://media.unbackoffice.com/docs",
+  "bugs": {
+    "url": "https://github.com/sect0rial/argus-media/issues"
+  },
   "bin": {
     "argus-media": "mcp/dist/index.js"
   },
@@ -20,6 +23,10 @@
   ],
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsc -p mcp/tsconfig.json && node scripts/chmod-bin.mjs",
